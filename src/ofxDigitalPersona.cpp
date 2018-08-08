@@ -20,6 +20,7 @@ DPFP_STDAPI DPFPConvertSampleToBitmap(const DATA_BLOB* pSample, PBYTE pBitmap, s
 
 ofxDigitalPersona::ofxDigitalPersona()
 {
+	doLog = false;
 }
 
 
@@ -32,10 +33,10 @@ void	ofxDigitalPersona::setup()
 	_this = this;
 	handle = ofGetWin32Window();
 	if (!handle)
-		ofLogError() << "ofxDigitalPersona : Error getting window handler";
+		log("Error getting window handler");
 	windowProcess = (WNDPROC)SetWindowLongPtr(handle, GWL_WNDPROC, (ULONG)(ptrWindowProcess));
 	if (!windowProcess)
-		ofLogError() << "ofxDigitalPersona : Error setting window events handler";
+		log("Error setting window events handler");
 
 	DPFPInit();
 	GUID	*uids = NULL;
@@ -63,7 +64,7 @@ void		ofxDigitalPersona::open(int	_deviceIndex)
 {
 	if (_deviceIndex > devicesCount)
 	{
-		ofLogError() << "ofxDigitalPersona : There is no device with index " << _deviceIndex;
+		log("There is no device with index " + ofToString(_deviceIndex));
 	}
 	else {
 		open(devicesGUID[_deviceIndex]);
@@ -75,18 +76,18 @@ void		ofxDigitalPersona::open(GUID	_guid)
 	HDPOPERATION	operationEnroll(0);
 	if (DPFPCreateAcquisition(DP_PRIORITY_NORMAL, _guid, DP_SAMPLE_TYPE_IMAGE, handle, WMUS_FP_NOTIFY, &operationEnroll) == S_OK)
 	{
-		ofLogNotice() << "ofxDigitalPersona : Acquistion at " << _guid.Data1 << " OK";
+		log("Acquistion at " + ofToString(_guid.Data1) + " OK");
 		HRESULT	res = DPFPStartAcquisition(operationEnroll);
 		if (res == S_OK)
 		{
-			ofLogNotice() << "ofxDigitalPersona : Started acquistion at " << _guid.Data1;
+			log("Started acquistion at " + ofToString(_guid.Data1));
 		}
 		else {
-			ofLogError() << "ofxDigitalPersona : Error starting acquistion";
+			log("Error starting acquistion");
 		}
 	}
 	else {
-		ofLogError() << "ofxDigitalPersona : Error creating acquistion";
+		log("Error creating acquistion");
 	}
 }
 
@@ -107,8 +108,8 @@ void	ofxDigitalPersona::processMessage(UINT _msg, WPARAM _wParam, LPARAM _lParam
 				size_t dwColorsSize = pOutBmp->bmiHeader.biClrUsed * sizeof(PALETTEENTRY);
 				const BYTE* pBmpBits = (PBYTE)pOutBmp + sizeof(BITMAPINFOHEADER) + dwColorsSize;
 
-				LONG WidthOut = 256;
-				LONG HeightOut = 256;
+				LONG WidthOut = 512;
+				LONG HeightOut = 512;
 
 				HDC screen_dc = GetDC(NULL);
 				HDC shot_dc = CreateCompatibleDC(screen_dc);
@@ -209,6 +210,14 @@ void		ofxDigitalPersona::listDevices()
 		ofLogNotice() << "	Device " << i <<  " : " << devicesGUID.at(i).Data1 << endl;
 	}
 
+}
+
+void		ofxDigitalPersona::log(string	_val)
+{
+	if (doLog)
+	{
+		ofLogNotice() << "ofxDigitalPersona : " << _val;
+	}
 }
 
 int			ofxDigitalPersona::getDeviceCount()

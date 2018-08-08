@@ -19,16 +19,20 @@ public:
 	void		setup();
 	void		open(int	_deviceIndex);
 	void		open(GUID	_guid);
+	void		printLog(bool	_val);
 	void		processMessage(UINT _msg, WPARAM _wParam, LPARAM _lParam);
 	void		listDevices();
 	int			getDeviceCount();
+
 private:
+	void		log(string	_val);
 	void		dispatchEvent(int	_status, GUID	_guid);
 	void		dispatchImageEvent(int	_status, GUID	_guid,ofImage _img);
 
 	unsigned	long					devicesCount;
 	vector<GUID>						devicesGUID;
 	GUID		currentGuid;
+	bool		doLog;
 
 };
 
