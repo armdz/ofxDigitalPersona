@@ -33,6 +33,7 @@ private:
 	vector<GUID>						devicesGUID;
 	GUID		currentGuid;
 	bool		doLog;
+	std::map<unsigned long,int>	deviceMap;
 
 };
 

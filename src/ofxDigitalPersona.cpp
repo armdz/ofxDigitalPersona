@@ -52,6 +52,7 @@ void	ofxDigitalPersona::setup()
 				DP_DEVICE_INFO	deviceInfo;
 				if (DPFPGetDeviceInfo(uids[i], &deviceInfo) == S_OK)
 				{
+					deviceMap.insert(std::pair<unsigned long, int>(uids[i].Data1,i));
 					devicesGUID.push_back(uids[i]);
 				}
 			}
@@ -184,6 +185,7 @@ void		ofxDigitalPersona::dispatchEvent(int	_status, GUID	_guid)
 	newEvent.status = _status;
 	newEvent.guid = _guid;
 	newEvent.message = msg;
+	newEvent.deviceIndex = deviceMap[_guid.Data1];
 	ofNotifyEvent(ofxDigitalPersonaEvent::events, newEvent);
 
 }
@@ -195,6 +197,7 @@ void		ofxDigitalPersona::dispatchImageEvent(int	_status, GUID	_guid, ofImage _im
 	newEvent.guid = _guid;
 	newEvent.image = _img;
 	newEvent.message = "Completed";
+	newEvent.deviceIndex = deviceMap[_guid.Data1];
 	ofNotifyEvent(ofxDigitalPersonaEvent::events, newEvent);
 }
 
@@ -211,6 +214,11 @@ void		ofxDigitalPersona::listDevices()
 	}
 
 }
+void		ofxDigitalPersona::printLog(bool	_val)
+{
+	doLog = true;
+}
+
 
 void		ofxDigitalPersona::log(string	_val)
 {
