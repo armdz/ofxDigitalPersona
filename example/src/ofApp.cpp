@@ -42,7 +42,7 @@ void ofApp::draw(){
 
 void	ofApp::onDigitalPersonaEvent(ofxDigitalPersonaEvent	&_args)
 {	
-	//	if you are using more than one device, you can now what device is sending you the image
+	//	if you are using more than one device, you can know what device is sending you the image
 	//	checking _args.deviceIndex 
 	
 	_args.print();
