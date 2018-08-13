@@ -1,16 +1,15 @@
-ofxDigitalPersona (Windows only)
+# ofxDigitalPersona
 
-========
+Obtain the finger print image from the Digital Persona Finger Print readers.
 
-openFrameworks addon to obtain the Finger Print image from the Digital Persona Devices.
-Tested with U.are.U 4500 Reader.
+# Multiple devices
 
-Tested in Windows 10 (on 32bit project), Visual Studio 2015
+Tested with 3 simultaneuos readers on the same computer ( check the example for how to ... )
+# Notes
+  - Windows Only
+  - Tested on Windows 10 (on 32bit project), Visual Studio 2015. Using U.are.U 4500 device.
+  - The addon dont include the drivers for the device, this can be download from here   https://github.com/iamonuwa/Digital-Persona-SDK
 
-=======
+# Thanks
 
-Supports simultaneous devices, in the event dispatched from the addont you can know what devices is sending you the image using "guid" or "deviceIndex" property.
-
-=======
-
-The addon dont include the drivers for the device, this can be download from here https://github.com/iamonuwa/Digital-Persona-SDK
+To Tomas Rawski (https://github.com/rtomas) for lending me the first device.
