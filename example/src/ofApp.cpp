@@ -8,7 +8,10 @@ void ofApp::setup(){
 	digitalPersona.setup();
 	digitalPersona.listDevices();
 	digitalPersona.open(0);
-
+	//	if you have more devies plugge, they can be opend by his index
+	//	digitalPersona.open(1);
+	//	digitalPersona.open(2);
+	//	...		
 	ofAddListener(ofxDigitalPersonaEvent::events, this, &ofApp::onDigitalPersonaEvent);
 
 }
@@ -38,7 +41,10 @@ void ofApp::draw(){
 //--------------------------------------------------------------
 
 void	ofApp::onDigitalPersonaEvent(ofxDigitalPersonaEvent	&_args)
-{
+{	
+	//	if you are using more than one device, you can now what device is sending you the image
+	//	checking _args.deviceIndex 
+	
 	_args.print();
 	if (_args.image.isAllocated())
 		fingerImage = _args.image;
