@@ -35,6 +35,7 @@ void	ofxDigitalPersona::setup()
 	if (!handle)
 		log("Error getting window handler");
 	windowProcess = (WNDPROC)SetWindowLongPtr(handle, GWL_WNDPROC, (ULONG)(ptrWindowProcess));
+	initFX();
 	if (!windowProcess)
 		log("Error setting window events handler");
 
@@ -58,7 +59,18 @@ void	ofxDigitalPersona::setup()
 			}
 		}
 	}
+}
 
+void		ofxDigitalPersona::initFX()
+{
+	if (FX_init() == FT_OK)
+	{
+		cout << "FX ok " << endl;
+		if (FX_createContext(&fxContext) == FT_OK)
+		{
+			cout << "Context OK " << endl;
+		}
+	}
 }
 
 void		ofxDigitalPersona::open(int	_deviceIndex)
@@ -99,6 +111,7 @@ void	ofxDigitalPersona::processMessage(UINT _msg, WPARAM _wParam, LPARAM _lParam
 	{
 		case WN_COMPLETED: {
 			DATA_BLOB* pImageBlob = reinterpret_cast<DATA_BLOB*>(_lParam);
+		
 			size_t Size = 0;
 			PBITMAPINFO pOutBmp = NULL;
 			HRESULT hr = DPFPConvertSampleToBitmap(pImageBlob, 0, &Size);

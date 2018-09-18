@@ -6,7 +6,10 @@
 
 #include "ofMain.h"
 #include "ofxDigitalPersonaEvent.h"
+#include "dpDefs.h"
+#include "dpRCodes.h"
 #include "DPDevClt.h"
+#include "dpFtrEx.h"
 
 enum { WMUS_FP_NOTIFY = WM_USER + 1 };
 
@@ -28,12 +31,16 @@ private:
 	void		log(string	_val);
 	void		dispatchEvent(int	_status, GUID	_guid);
 	void		dispatchImageEvent(int	_status, GUID	_guid,ofImage _img);
+	void		initFX();
 
 	unsigned	long					devicesCount;
 	vector<GUID>						devicesGUID;
 	GUID		currentGuid;
 	bool		doLog;
 	std::map<unsigned long,int>	deviceMap;
+
+	//	Feature extraction
+	FT_HANDLE	fxContext;
 
 };
 
