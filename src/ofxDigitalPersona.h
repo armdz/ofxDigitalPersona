@@ -19,7 +19,7 @@ public:
 	ofxDigitalPersona();
 	~ofxDigitalPersona();
 
-	void		setup();
+	void		setup(int _imgSize = 512);
 	void		open(int	_deviceIndex);
 	void		open(GUID	_guid);
 	void		printLog(bool	_val);
@@ -38,6 +38,7 @@ private:
 	GUID		currentGuid;
 	bool		doLog;
 	std::map<unsigned long,int>	deviceMap;
+	int		imgSize;
 
 	//	Feature extraction
 	FT_HANDLE	fxContext;

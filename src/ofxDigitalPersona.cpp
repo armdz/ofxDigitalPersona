@@ -28,9 +28,10 @@ ofxDigitalPersona::~ofxDigitalPersona()
 {
 }
 
-void	ofxDigitalPersona::setup()
+void	ofxDigitalPersona::setup(int _imgSize)
 {
 	_this = this;
+	imgSize = _imgSize;
 	handle = ofGetWin32Window();
 	if (!handle)
 		log("Error getting window handler");
@@ -122,8 +123,8 @@ void	ofxDigitalPersona::processMessage(UINT _msg, WPARAM _wParam, LPARAM _lParam
 				size_t dwColorsSize = pOutBmp->bmiHeader.biClrUsed * sizeof(PALETTEENTRY);
 				const BYTE* pBmpBits = (PBYTE)pOutBmp + sizeof(BITMAPINFOHEADER) + dwColorsSize;
 
-				LONG WidthOut = 512;
-				LONG HeightOut = 512;
+				LONG WidthOut = imgSize;
+				LONG HeightOut = imgSize;
 
 				HDC screen_dc = GetDC(NULL);
 				HDC shot_dc = CreateCompatibleDC(screen_dc);
@@ -182,7 +183,7 @@ void		ofxDigitalPersona::dispatchEvent(int	_status, GUID	_guid)
 			msg = "Touched";
 			break;
 		case WN_FINGER_GONE:
-			msg = "Finger gone";
+			msg = "Gone";
 			break;
 			case WN_IMAGE_READY:{
 				msg = "Image ready";
